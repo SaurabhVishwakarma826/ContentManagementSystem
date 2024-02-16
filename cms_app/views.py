@@ -109,3 +109,44 @@ def search_content(request):
             serializer = ContentSerializer(search_results, many=True)
             return Response(serializer.data, status=200)
         return Response(serializer.errors, status=400)
+
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.response import Response
+from rest_framework import status
+from .models import Content
+from .serializers import ContentSerializer
+
+
+@api_view(['GET'])
+@permission_classes([IsAdminUser])
+def admin_view_all_content(request):
+    """
+    Admin view to retrieve all content items created by multiple users.
+    """
+    if request.method == 'GET':
+        content_items = Content.objects.all()
+        serializer = ContentSerializer(content_items, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['PUT', 'DELETE'])
+@permission_classes([IsAdminUser])
+def admin_edit_delete_content(request, pk):
+    """
+    Admin view to edit or delete a specific content item.
+    """
+    try:
+        content = Content.objects.get(pk=pk)
+    except Content.DoesNotExist:
+        return Response({'error': 'Content not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'PUT':
+        serializer = ContentSerializer(content, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        content.delete()
+        return Response({'message': 'Content deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
