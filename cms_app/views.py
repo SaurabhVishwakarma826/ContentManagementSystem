@@ -1,9 +1,14 @@
 from .serializers import UserSerializer, ContentSerializer, SearchSerializer
 from django.contrib.auth import authenticate
 from django.core.exceptions import ObjectDoesNotExist
-from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAdminUser
 from .models import Content, CustomUser
+from rest_framework.authtoken.models import Token
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework import status
+
 
 @api_view(['POST'])
 def register_user(request):
@@ -38,12 +43,6 @@ def user_login(request):
 
         return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
-
-from rest_framework.authtoken.models import Token
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from rest_framework import status
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -110,8 +109,6 @@ def search_content(request):
             serializer = ContentSerializer(search_results, many=True)
             return Response(serializer.data, status=200)
         return Response(serializer.errors, status=400)
-
-
 
 
 @api_view(['GET'])
