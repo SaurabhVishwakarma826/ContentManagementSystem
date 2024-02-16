@@ -15,7 +15,7 @@ This project is a Django Rest Framework (DRF) implementation of a Content Manage
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/SaurabhVishwakarma826/ContentManagementSystem.git
+    git clone https://github.com/SaurabhVishwakarma826/ContentManagementSystem
     cd ContentManagementSystem
     ```
 
@@ -127,6 +127,18 @@ This project is a Django Rest Framework (DRF) implementation of a Content Manage
 - Query Parameter: `search_param`
 
     Example: `/api/content/search/?search_param=Django`
+
+#### Admin View All Content
+
+- Endpoint: `/api/admin/content/all/`
+- Method: `GET`
+- Permission: Admin user
+
+#### Admin Edit or Delete Content
+
+- Endpoint: `/api/admin/content/edit/<int:pk>/`
+- Methods: `PUT`, `DELETE`
+- Permission: Admin user
 
 ## Customization
 
