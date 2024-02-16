@@ -15,8 +15,8 @@ This project is a Django Rest Framework (DRF) implementation of a Content Manage
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/yourusername/django-cms.git
-    cd django-cms
+    https://github.com/SaurabhVishwakarma826/ContentManagementSystem.git
+    cd ContentManagementSystem
     ```
 
 2. Create and activate a virtual environment:
@@ -35,6 +35,7 @@ This project is a Django Rest Framework (DRF) implementation of a Content Manage
 4. Apply database migrations:
 
     ```bash
+    python manage.py makemigrations
     python manage.py migrate
     ```
 
