@@ -1,8 +1,9 @@
 from .serializers import UserSerializer, ContentSerializer, SearchSerializer
 from django.contrib.auth import authenticate
-from rest_framework.decorators import api_view
 from django.core.exceptions import ObjectDoesNotExist
-from .models import CustomUser, Content
+from rest_framework.decorators import api_view
+from rest_framework.permissions import IsAdminUser
+from .models import Content, CustomUser
 
 @api_view(['POST'])
 def register_user(request):
@@ -110,12 +111,7 @@ def search_content(request):
             return Response(serializer.data, status=200)
         return Response(serializer.errors, status=400)
 
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from rest_framework.response import Response
-from rest_framework import status
-from .models import Content
-from .serializers import ContentSerializer
+
 
 
 @api_view(['GET'])
@@ -132,9 +128,6 @@ def admin_view_all_content(request):
 @api_view(['PUT', 'DELETE'])
 @permission_classes([IsAdminUser])
 def admin_edit_delete_content(request, pk):
-    """
-    Admin view to edit or delete a specific content item.
-    """
     try:
         content = Content.objects.get(pk=pk)
     except Content.DoesNotExist:
