@@ -106,7 +106,7 @@ This project is a Django Rest Framework (DRF) implementation of a Content Manage
         "body": "This is the content body.",
         "summary": "A brief summary",
         "document": null,
-        "categories": [1, 2]
+        "categories": [1] # spacify the content id
     }
     ```
 
